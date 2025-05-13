@@ -16,7 +16,7 @@ def main():
             file.write(response.content)
     print('File downloaded successfully')
     """
-    tar = tarfile.open("genomes/test", "r:gz")
+    tar = tarfile.open("genomes/test", "r:tar")
     tar.extractall("destination_folder")
     tar.close()
 
