@@ -5,8 +5,11 @@ url = 'https://g-227ca.190ebd.75bc.data.globus.org/ibdmdb/raw/HMP2/MGX/2018-05-0
 
 def main():
     os.mkdir("genomes")
+    print ("Sending request")
     response = requests.get(url)
+    print ("Received response")
     if response.status_code == 200:
+        print ("Writing")
         with open("genomes/test", 'wb') as file:
             file.write(response.content)
     print('File downloaded successfully')
