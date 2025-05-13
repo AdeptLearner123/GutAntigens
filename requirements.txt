@@ -1,1 +1,2 @@
 requests
+openssl@1.1
