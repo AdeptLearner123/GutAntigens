@@ -48,8 +48,8 @@ def translate(file_name):
 
 
 def collect_sequences():
-    complete_sequences = defaultdict(lambda: [])
-    partial_sequences = defaultdict(lambda: [])
+    sequence_samples = defaultdict(lambda: [])
+    sequence_completions = dict()
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
     for file in tqdm(os.listdir(AA_SEQUENCES_DIR)):
@@ -57,28 +57,21 @@ def collect_sequences():
         for record in SeqIO.parse(os.path.join(AA_SEQUENCES_DIR, file), "fasta"):
             sequence = str(record.seq)
             is_complete = record.description.split("partial=")[1].split(";")[0] == "00"
-            if is_complete:
-                complete_sequences[sequence].append(sample_name)
-            else:
-                partial_sequences[sequence].append(sample_name)
-    
-    with open(COMPLETE_SEQUENCES, "w") as output_handle:
-        for i, sequence in tqdm(list(enumerate(complete_sequences))):
-            samples_description = ";".join(complete_sequences[sequence])
-            record = SeqRecord(
-                Seq(sequence),
-                id=f"{i}",
-                description=f"{i} # {samples_description}"
-            )
-            SeqIO.write(record, output_handle, "fasta")
+            sequence_samples[sequence].append(sample_name)
 
-    with open(PARTIAL_SEQUENCES, "w") as output_handle:
-        for i, sequence in tqdm(list(enumerate(partial_sequences))):
-            samples_description = ";".join(partial_sequences[sequence])
+            completion_str = "Complete" if is_complete else "Incomplete"
+            if sequence not in sequence_completions:
+                sequence_completions[sequence] = completion_str
+            elif sequence_completions[sequence] != completion_str:
+                sequence_completions[sequence] = "Mixed"
+    
+    with open(SEQUENCES, "w") as output_handle:
+        for i, sequence in tqdm(list(enumerate(sequence_samples))):
+            samples_description = ";".join(sequence_samples[sequence])
             record = SeqRecord(
                 Seq(sequence),
                 id=f"{i}",
-                description=f"{i} # {samples_description}"
+                description=f"{i} # {sequence_completions[sequence]}|{samples_description}"
             )
             SeqIO.write(record, output_handle, "fasta")
 

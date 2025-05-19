@@ -10,11 +10,14 @@ AA_SEQUENCES_DIR = "genomes/aa_sequences"
 NT_SEQUENCES_DIR = "genomes/nt_sequences"
 
 RESULTS_DIR = "genomes/results"
-COMPLETE_SEQUENCES = "genomes/results/complete_sequences.fasta"
-PARTIAL_SEQUENCES = "genomes/results/partial_sequences.fasta"
+SEQUENCES = "genomes/results/sequences.fasta"
 
 
 SEQUENCE_FREQUENCIES = "genomes/results/sequence_frequencies"
 PARTIAL_CONTAINED = "genomes/results/partial_contained"
 PARTIAL_COLLAPSED = "genomes/results/partial_collapsed"
 PARTIAL_UNCOLLAPSED = "genomes/results/partial_uncollapsed"
+
+PLOTS = "genomes/plots"
+
+COMPLETE_SEQUENCES = "genomes/results/complete_sequences.fasta"
